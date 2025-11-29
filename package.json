@@ -1,0 +1,21 @@
+{
+  "name": "verifier-backend",
+  "version": "1.0.0",
+  "main": "src/server.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
+    "gen-keys": "node generateKeys.js"
+  },
+  "dependencies": {
+    "cor": "^0.0.0",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^4.21.2",
+    "lucid-cardano": "^0.10.11"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0"
+  }
+}
