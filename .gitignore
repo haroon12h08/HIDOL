@@ -1,0 +1,62 @@
+# === Node ===
+node_modules/
+npm-debug.log
+yarn-error.log
+pnpm-lock.yaml
+package-lock.json
+
+# === Environment Secrets ===
+.env
+.env.local
+.env.development
+.env.production
+.env.test
+*.key
+*.pem
+
+# === Logs ===
+logs/
+*.log
+.log
+debug.log
+error.log
+
+# === Build / Output ===
+dist/
+build/
+.cache/
+.temp/
+out/
+
+# === WASM & Prover Artifacts ===
+prover/wasm/*.wasm
+prover/wasm/*.wat
+prover/wasm/build/
+prover/wasm/tmp/
+prover/.compact-cache/
+
+# === Frontend ===
+.next/
+.vite/
+.svelte-kit/
+.DS_Store
+
+# === OS Files ===
+Thumbs.db
+.DS_Store
+__MACOSX/
+
+# === Editor ===
+.vscode/
+.idea/
+*.swp
+*.swo
+*.orig
+
+# === Coverage ===
+coverage/
+*.lcov
+
+# === Misc ===
+tmp/
+*.tmp
