@@ -1,0 +1,16 @@
+{
+  "loanId": "0xabcd0123ef",
+  "proofCommit": "6b198d7f44ca3090ea3b12dfc8b1232864ebc97648aeeab82a8aad00cc9508f1",
+  "flags": {
+    "income_ok": true,
+    "collateral_ratio_ok": true,
+    "wallet_ok": true,
+    "freshness_ok": true,
+    "debt_ok": true,
+    "asset": "ADA"
+  },
+  "oracleRound": 1,
+  "oracleTimestamp": 1764476257,
+  "expiry": 1764476857,
+  "nonce": "8d69627c7d31d25770e21db2bcf6ca08"
+}

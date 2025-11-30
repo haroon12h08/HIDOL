@@ -1,20 +1,22 @@
-// src/oracle.js
 const crypto = require("crypto");
+const fs = require("fs");
+const path = require("path");
 
-let roundCounter = 1;
+// Load private key
+const privPem = fs.readFileSync(path.join(__dirname, "..", "keys", "verifier.priv"), "utf8");
+const privKey = crypto.createPrivateKey(privPem);
 
-function getOracleQuote() {
-  const asset = "ADA";
-  const basePrice = 1.5;
-  const jitter = (Math.random() - 0.5) * 0.05; // ± 5% random for demo
-  const price = parseFloat((basePrice * (1 + jitter)).toFixed(4));
-  const timestamp = Math.floor(Date.now() / 1000);
+// Oracle generator
+function getOracleQuote(asset = "ADA") {
+  const jitter = (Math.random() - 0.5) * 0.02; // small price wiggle
+  const basePrice = 1.50; 
+  const now = Math.floor(Date.now()/1000);
 
-  const message = `${asset}:${price}:${timestamp}`;
-  const signature = crypto.createHash("sha256").update(message).digest("hex"); // mock sig
+  const price = parseFloat((basePrice + jitter).toFixed(4));
+  const message = `${asset}:${price}:${now}`;
+  const signature = crypto.sign(null, Buffer.from(message), privKey).toString("hex");
 
-  const round = roundCounter++;
-  return { asset, price, timestamp, round, signature };
+  return { asset, price, timestamp: now, signature };
 }
 
 module.exports = { getOracleQuote };

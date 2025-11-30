@@ -1,42 +1,31 @@
-// src/signAttestation.js
-const fs = require("fs");
-const path = require("path");
-const crypto = require("crypto");
+import crypto from "crypto";
+import fs from "fs";
+import path from "path";
 
-const privPem = fs.readFileSync(
-  path.join(__dirname, "..", "keys", "verifier.priv"),
-  "utf8"
-);
-const verifierPrivateKey = crypto.createPrivateKey({
-  key: privPem,
-  format: "pem",
-  type: "pkcs8"
-});
+const privPath = path.join(process.cwd(), "keys", "verifier.priv");
+const key = crypto.createPrivateKey(fs.readFileSync(privPath, "utf8"));
 
-function buildAttestation({ loanId, proofCommit, flags, oracleRound, oracleTimestamp }) {
-  const now = Math.floor(Date.now() / 1000);
+export function buildAndSignAttestation({
+  loanId,
+  proofCommit,
+  flags,
+  oracleRound,
+  oracleTimestamp
+}) {
 
-  return {
+  const attestation = {
     loanId,
     proofCommit,
     flags,
     oracleRound,
     oracleTimestamp,
-    expiry: now + 10 * 60, // 10 minutes
-    nonce: crypto.randomBytes(16).toString("hex")
+    expiry: Math.floor(Date.now()/1000) + 600,
+    nonce: crypto.randomBytes(32).toString("hex").slice(0, 64)
   };
-}
 
-function signAttestation(attestation) {
-  const payload = JSON.stringify(attestation);
-  const sig = crypto.sign(null, Buffer.from(payload), verifierPrivateKey);
-  return sig.toString("hex");
-}
+  const signature = crypto.sign(null, Buffer.from(JSON.stringify(attestation)), key).toString("hex");
 
-function buildAndSignAttestation(params) {
-  const attestation = buildAttestation(params);
-  const signature = signAttestation(attestation);
   return { attestation, signature };
 }
 
-module.exports = { buildAndSignAttestation };
+export default buildAndSignAttestation;
